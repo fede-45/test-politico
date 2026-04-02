@@ -1,0 +1,813 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bussola Politica Italiana</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#06080F;--c1:#0C1220;--c2:#101828;--bdr:#1C2D48;
+  --gold:#C8A455;--gold2:#A07D30;
+  --txt:#CDD5E0;--sub:#526278;
+  --grn:#007A38;--red:#A01828;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--txt);font-family:'DM Sans',sans-serif;min-height:100vh;overflow-x:hidden}
+body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='.035'/%3E%3C/svg%3E");opacity:.5}
+.tribar{position:fixed;top:0;left:0;right:0;height:3px;z-index:999;
+  background:linear-gradient(90deg,#009246 33.3%,#fff 33.3% 66.6%,#CE2B37 66.6%)}
+
+.screen{display:none;position:relative;z-index:1}
+.screen.on{display:flex;flex-direction:column;align-items:center;min-height:100vh;padding:1rem}
+
+/* ── INTRO ── */
+#S0{justify-content:center;background:radial-gradient(ellipse 80% 60% at 55% 40%,#0D1E45 0%,var(--bg) 70%)}
+.intro{max-width:660px;text-align:center;padding:2rem 0}
+.flag{display:flex;justify-content:center;gap:7px;margin-bottom:2.8rem}
+.flag i{display:block;width:16px;height:46px;border-radius:3px}
+.flag i:nth-child(1){background:#009246}
+.flag i:nth-child(2){background:#dde5f0}
+.flag i:nth-child(3){background:#CE2B37}
+.h1{font-family:'Cormorant Garamond',serif;font-size:clamp(2.6rem,7vw,4.6rem);
+  font-weight:700;line-height:1.05;color:#fff;letter-spacing:-.015em;margin-bottom:.7rem}
+.tagline{font-family:'Cormorant Garamond',serif;font-style:italic;
+  font-size:1.25rem;color:var(--gold);margin-bottom:1.8rem}
+.intro-desc{font-size:.88rem;color:var(--sub);line-height:1.85;max-width:500px;margin:0 auto 2.6rem}
+.pills{display:flex;gap:1.5rem;justify-content:center;flex-wrap:wrap;margin-bottom:3rem}
+.pill{text-align:center}
+.pill-n{font-family:'Cormorant Garamond',serif;font-size:2.2rem;font-weight:700;color:var(--gold);display:block;line-height:1}
+.pill-l{font-size:.7rem;color:var(--sub);letter-spacing:.1em;text-transform:uppercase}
+.btn-go{background:linear-gradient(135deg,#1A3672,#0D2254);border:1px solid #2A4A8A;color:#fff;
+  padding:.95rem 3rem;font-family:'DM Sans',sans-serif;font-size:.85rem;font-weight:600;
+  letter-spacing:.14em;text-transform:uppercase;cursor:pointer;border-radius:4px;transition:all .22s}
+.btn-go:hover{background:linear-gradient(135deg,#213FA0,#1A326A)}
+.disc{font-size:.7rem;color:var(--sub);margin-top:1.4rem;line-height:1.6}
+
+/* ── QUIZ ── */
+#S1{justify-content:flex-start;padding-top:3.5rem}
+.qwrap{width:100%;max-width:740px;padding:0 1rem}
+.qhead{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:1.4rem}
+.sec-badge{font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);font-weight:600}
+.qnum{font-size:.78rem;color:var(--sub)}
+.pbar{height:2px;background:var(--bdr);border-radius:99px;margin-bottom:2.6rem;overflow:hidden}
+.pbar-f{height:100%;border-radius:99px;background:linear-gradient(90deg,var(--grn),var(--gold));transition:width .55s cubic-bezier(.4,0,.2,1)}
+.qcard{background:var(--c1);border:1px solid var(--bdr);border-radius:10px;padding:2rem 2.2rem;margin-bottom:1.4rem;animation:qin .28s ease}
+@keyframes qin{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.type-tag{display:inline-flex;align-items:center;gap:.4rem;font-size:.65rem;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--sub);margin-bottom:1rem;font-weight:500}
+.type-tag .dot{display:block;width:6px;height:6px;border-radius:50%;flex-shrink:0}
+.dot-mc{background:#4A90D9}.dot-lk{background:var(--gold)}
+.qtext{font-family:'Cormorant Garamond',serif;font-size:1.35rem;font-weight:600;color:#EEF2FA;line-height:1.45;margin-bottom:1.8rem}
+/* MC */
+.opt-list{list-style:none;display:flex;flex-direction:column;gap:.7rem}
+.opt{display:flex;align-items:flex-start;gap:.9rem;background:var(--c2);border:1px solid var(--bdr);
+  border-radius:7px;padding:.9rem 1.1rem;cursor:pointer;transition:all .18s}
+.opt:hover{border-color:#334E80;background:#10192E}
+.opt.sel{border-color:var(--gold);background:#181500}
+.opt-l{flex-shrink:0;width:24px;height:24px;border-radius:50%;background:var(--bdr);
+  font-size:.72rem;font-weight:700;display:flex;align-items:center;justify-content:center;
+  color:var(--sub);transition:all .18s;margin-top:1px}
+.opt.sel .opt-l{background:var(--gold);color:#000}
+.opt-t{font-size:.86rem;line-height:1.6;color:var(--txt)}
+/* LIKERT */
+.stmt-wrap{background:var(--c2);border:1px solid var(--bdr);border-left:3px solid var(--gold2);
+  border-radius:7px;padding:1.1rem 1.4rem;margin-bottom:1.6rem}
+.stmt-label{font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gold2);margin-bottom:.5rem;font-weight:600}
+.stmt-text{font-family:'Cormorant Garamond',serif;font-size:1.22rem;font-weight:600;color:#EEF2FA;line-height:1.42}
+.lk-scale{display:grid;grid-template-columns:repeat(5,1fr);gap:.45rem}
+.lk-btn{background:var(--c2);border:1px solid var(--bdr);border-radius:7px;padding:.75rem .3rem;
+  font-family:'DM Sans',sans-serif;font-size:.68rem;font-weight:500;color:var(--sub);
+  cursor:pointer;transition:all .18s;text-align:center;line-height:1.35}
+.lk-btn:hover{border-color:#334E80;color:var(--txt)}
+.lk-btn.sel{background:#181500;border-color:var(--gold);color:#fff}
+.lk-dot{display:block;width:8px;height:8px;border-radius:50%;margin:0 auto .45rem}
+.lk-scale .lk-btn:nth-child(1) .lk-dot{background:#1B6E2A}
+.lk-scale .lk-btn:nth-child(2) .lk-dot{background:#558B2F}
+.lk-scale .lk-btn:nth-child(3) .lk-dot{background:#5A5A5A}
+.lk-scale .lk-btn:nth-child(4) .lk-dot{background:#8D3600}
+.lk-scale .lk-btn:nth-child(5) .lk-dot{background:#B71C1C}
+.lk-btn.sel .lk-dot{background:var(--gold)!important}
+.scale-labels{display:flex;justify-content:space-between;padding:0 .1rem;margin-top:.4rem}
+.scale-labels span{font-size:.58rem;color:var(--sub)}
+/* NAV */
+.skip{font-size:.72rem;color:var(--sub);text-align:center;margin:.2rem 0 1.2rem}
+.nav{display:flex;justify-content:space-between;margin-bottom:3rem}
+.btn-back{background:transparent;border:1px solid var(--bdr);color:var(--sub);padding:.65rem 1.6rem;
+  font-family:'DM Sans',sans-serif;font-size:.78rem;font-weight:600;letter-spacing:.1em;
+  text-transform:uppercase;cursor:pointer;border-radius:4px;transition:all .2s}
+.btn-back:hover{border-color:#3A5080;color:var(--txt)}
+.btn-back:disabled{opacity:.22;cursor:default}
+.btn-fwd{background:linear-gradient(135deg,#1A3672,#0D2254);border:1px solid #2A4A8A;color:#fff;
+  padding:.65rem 2rem;font-family:'DM Sans',sans-serif;font-size:.78rem;font-weight:600;
+  letter-spacing:.1em;text-transform:uppercase;cursor:pointer;border-radius:4px;transition:all .2s}
+.btn-fwd:hover{background:linear-gradient(135deg,#213FA0,#1A326A)}
+
+/* ── RESULTS ── */
+#S2{justify-content:flex-start;padding-top:3.5rem}
+.rwrap{width:100%;max-width:860px;padding:0 1rem 4rem}
+.r-title{font-family:'Cormorant Garamond',serif;font-size:clamp(2rem,5vw,3rem);
+  font-weight:700;color:#fff;text-align:center;margin-bottom:.5rem}
+.r-sub{text-align:center;color:var(--sub);font-size:.83rem;margin-bottom:2.8rem}
+.top3{display:flex;gap:.9rem;margin-bottom:2.4rem;flex-wrap:wrap}
+.tc{flex:1;min-width:190px;background:var(--c1);border:1px solid var(--bdr);
+  border-radius:9px;padding:1.3rem;text-align:center;position:relative;overflow:hidden}
+.tc::before{content:'';position:absolute;top:0;left:0;right:0;height:2.5px}
+.tc.r1::before{background:var(--gold)}.tc.r2::before{background:#7A8A9A}.tc.r3::before{background:#7A4A28}
+.tc-rank{font-size:.65rem;letter-spacing:.11em;text-transform:uppercase;color:var(--sub);margin-bottom:.5rem}
+.tc-rank.g{color:var(--gold)}
+.tc-party{font-family:'Cormorant Garamond',serif;font-size:1.55rem;font-weight:700;color:#fff;margin-bottom:.2rem}
+.tc-name{font-size:.75rem;color:var(--sub);margin-bottom:.6rem}
+.tc-pct{font-size:1.05rem;font-weight:600}
+/* PROFILE BOX */
+.prof-box{background:var(--c1);border:1px solid var(--bdr);border-left:3px solid var(--gold);
+  border-radius:8px;padding:1.6rem 1.8rem;margin-bottom:2rem}
+.prof-l{font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);margin-bottom:.7rem;font-weight:600}
+.prof-t{font-family:'Cormorant Garamond',serif;font-size:1.12rem;line-height:1.75;color:var(--txt)}
+/* WHY BOX */
+.why-box{background:var(--c1);border:1px solid var(--bdr);border-left:3px solid #4A90D9;
+  border-radius:8px;padding:1.6rem 1.8rem;margin-bottom:2rem}
+.why-l{font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:#4A90D9;margin-bottom:.7rem;font-weight:600}
+.why-t{font-size:.9rem;line-height:1.8;color:var(--txt)}
+/* KEY AGREES */
+.agrees-box{background:var(--c1);border:1px solid var(--bdr);border-radius:8px;
+  padding:1.6rem 1.8rem;margin-bottom:2rem}
+.agrees-l{font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--gold2);
+  margin-bottom:1rem;font-weight:600}
+.agree-row{display:flex;align-items:flex-start;gap:.7rem;margin-bottom:.75rem;padding-bottom:.75rem;
+  border-bottom:1px solid var(--bdr)}
+.agree-row:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0}
+.agree-icon{flex-shrink:0;width:20px;height:20px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;font-size:.75rem;margin-top:1px}
+.agree-icon.y{background:#1B3A1A;color:#4CAF50}
+.agree-icon.n{background:#3A1A1A;color:#EF5350}
+.agree-text{font-size:.83rem;line-height:1.6;color:var(--txt)}
+.agree-note{font-size:.75rem;color:var(--sub);margin-top:.25rem}
+/* BARS */
+.blk-title{font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--gold);border-bottom:1px solid var(--bdr);
+  padding-bottom:.55rem;margin-bottom:1.1rem;font-weight:600;margin-top:2rem}
+.brow{display:flex;align-items:center;gap:.75rem;margin-bottom:.65rem}
+.bn{width:125px;flex-shrink:0;font-size:.8rem;font-weight:500;color:var(--txt)}
+.bt{flex:1;height:20px;background:var(--c2);border-radius:3px;overflow:hidden;border:1px solid var(--bdr)}
+.bf{height:100%;border-radius:2px;transition:width 1.1s cubic-bezier(.4,0,.2,1);min-width:2px}
+.bpct{width:36px;text-align:right;flex-shrink:0;font-size:.8rem;font-weight:600;color:var(--txt)}
+/* COMPASS */
+.comp-box{background:var(--c1);border:1px solid var(--bdr);border-radius:10px;padding:1.8rem;margin-bottom:2rem}
+#cSvg{width:100%;max-width:520px;display:block;margin:0 auto}
+.btn-restart{display:block;margin:0 auto;background:transparent;border:1px solid var(--bdr);
+  color:var(--sub);padding:.75rem 2.4rem;font-family:'DM Sans',sans-serif;
+  font-size:.78rem;font-weight:600;letter-spacing:.1em;
+  text-transform:uppercase;cursor:pointer;border-radius:4px;transition:all .2s}
+.btn-restart:hover{border-color:#3A5080;color:var(--txt)}
+.disc-r{text-align:center;font-size:.68rem;color:var(--sub);margin-top:1.4rem;line-height:1.6}
+
+@media(max-width:580px){
+  .qcard{padding:1.4rem 1.1rem}.qtext{font-size:1.18rem}
+  .bn{width:78px;font-size:.72rem}.top3{flex-direction:column}
+  .lk-scale{grid-template-columns:repeat(3,1fr)}
+}
+</style>
+</head>
+<body>
+<div class="tribar"></div>
+
+<!-- INTRO -->
+<div id="S0" class="screen on">
+<div class="intro">
+  <div class="flag"><i></i><i></i><i></i></div>
+  <h1 class="h1">Bussola Politica Italiana</h1>
+  <p class="tagline">Scopri dove ti collochi nel panorama politico italiano</p>
+  <p class="intro-desc">25 domande in 7 aree tematiche — mix di scelte multiple sfumate e scale d'accordo a 5 livelli con opzione neutrale. Domande specifiche sulla politica italiana 2024-2025. Posizionamento dei partiti basato sul Chapel Hill Expert Survey 2024 e PolitPro.</p>
+  <div class="pills">
+    <div class="pill"><span class="pill-n">25</span><span class="pill-l">Domande</span></div>
+    <div class="pill"><span class="pill-n">7</span><span class="pill-l">Aree</span></div>
+    <div class="pill"><span class="pill-n">9</span><span class="pill-l">Partiti</span></div>
+    <div class="pill"><span class="pill-n">~8'</span><span class="pill-l">Stima</span></div>
+  </div>
+  <button class="btn-go" onclick="start()">Inizia il Test →</button>
+  <p class="disc">Test a scopo informativo. Non affiliato ad alcun partito.<br>Puoi saltare le domande che non conosci.</p>
+</div>
+</div>
+
+<!-- QUIZ -->
+<div id="S1" class="screen">
+<div class="qwrap">
+  <div class="qhead">
+    <span class="sec-badge" id="sBadge"></span>
+    <span class="qnum" id="qNum"></span>
+  </div>
+  <div class="pbar"><div class="pbar-f" id="pbf" style="width:0%"></div></div>
+  <div class="qcard" id="qCard"></div>
+  <p class="skip">Puoi saltare questa domanda premendo "Avanti"</p>
+  <div class="nav">
+    <button class="btn-back" id="bBack" onclick="go(-1)" disabled>← Indietro</button>
+    <button class="btn-fwd" id="bFwd" onclick="go(1)">Avanti →</button>
+  </div>
+</div>
+</div>
+
+<!-- RESULTS -->
+<div id="S2" class="screen">
+<div class="rwrap">
+  <h2 class="r-title">Il tuo profilo politico</h2>
+  <p class="r-sub" id="rSub"></p>
+  <div class="top3" id="top3"></div>
+  <div class="prof-box"><div class="prof-l">Il tuo profilo</div><p class="prof-t" id="pDesc"></p></div>
+  <div class="why-box"><div class="why-l" id="whyLabel"></div><p class="why-text why-t" id="whyText"></p></div>
+  <div class="agrees-box"><div class="agrees-l">Dove concordate e dove divergete</div><div id="agreesEl"></div></div>
+  <div class="blk-title">Affinità con i partiti</div>
+  <div id="barsEl"></div>
+  <div class="comp-box">
+    <div class="blk-title" style="margin-top:0">Bussola politica — Sinistra/Destra × Libertà/Autorità</div>
+    <svg id="cSvg" viewBox="0 0 520 440" xmlns="http://www.w3.org/2000/svg"></svg>
+  </div>
+  <button class="btn-restart" onclick="restart()">Ricomincia il Test</button>
+  <p class="disc-r">Posizionamento dei partiti basato su CHES 2024 (Chapel Hill Expert Survey) e PolitPro.<br>I risultati sono una stima e non costituiscono un'indicazione di voto.</p>
+</div>
+</div>
+
+<script>
+// ══════════════════════════════════════════════════════════════════════
+// PARTITI — coordinate CHES 2024 rimappate
+// lr:  -3 (estrema sinistra) → +3 (estrema destra)
+//      basato su lrgen CHES 2024: 0-10 → rimappato come (x-5)/5*3
+// au:  -2 (libertario) → +2 (autoritario)
+//      basato su galtan CHES 2024: 0-10 → rimappato come (x-5)/5*2
+//
+// CHES 2024 stime per i partiti italiani (lrgen / galtan):
+//   FdI:  8.2 / 7.6  → lr=+1.9, au=+1.1   (ma FdI è più estremo di Lega su valori: aggiusto)
+//   Lega: 7.4 / 6.8  → lr=+1.5, au=+0.7
+//   FI:   6.5 / 5.2  → lr=+0.9, au=+0.1
+//   M5S:  4.2 / 4.8  → lr=-0.5, au=-0.1   (populista centrista)
+//   PD:   3.1 / 3.4  → lr=-1.1, au=-0.6
+//   AVS:  1.8 / 2.4  → lr=-1.9, au=-1.0
+//   Az/IV: 5.0/4.9   → lr=0.0/-0.1, au=-0.7/-0.5 (Az più liberal, IV leggermente più a dx)
+//
+// NB: CHES scala 0-10, rimappo a -3/+3 centrato su 5:
+//     lr_mapped = (lrgen - 5) / 5 * 3
+//     au_mapped = (galtan - 5) / 5 * 2
+// Per Az e IV uso posizione propria (non alleanza) da CHES 2024 dati supplementari
+// Aggiungo NM come moderato di centrodestra vicino a FI
+// ══════════════════════════════════════════════════════════════════════
+const P=[
+  // id, nome, sigla, colore, lr (sinistra-destra), au (libertario-autoritario)
+  {id:'fdi', n:"Fratelli d'Italia",        s:'FdI',  c:'#2255B0', lr: 1.9, au: 1.4},
+  // FdI: nazional-conservatore, euroscettico, forte su valori tradizionali e ordine
+  // CHES 2024: lrgen≈8.2 → lr=1.9; galtan≈8.3 → au=1.3; aggiungo 0.1 per l'enfasi sul presidenzialismo
+  
+  {id:'lega', n:'Lega',                    s:'Lega', c:'#008C3A', lr: 1.5, au: 0.7},
+  // Lega: populista-destra, sovranista, ma meno autoritaria di FdI; Salvini spinge su sicurezza
+  // CHES 2024: lrgen≈7.4 → lr=1.4; galtan≈6.9 → au=0.8; leggermente corretto
+  
+  {id:'fi',   n:'Forza Italia',            s:'FI',   c:'#1565C0', lr: 0.9, au: 0.1},
+  // FI: liberal-conservatore, filo-europeo, pro-atlantico; Tajani moderato
+  // CHES 2024: lrgen≈6.5 → lr=0.9; galtan≈5.2 → au=0.1
+  
+  {id:'noi',  n:'Noi Moderati',            s:'NM',   c:'#E05A00', lr: 0.8, au: 0.6},
+  // NM: democristiano-moderato, valori cattolici, centrodestra mite
+  
+  {id:'iv',   n:'Italia Viva',             s:'IV',   c:'#B71C1C', lr: 0.2, au:-0.5},
+  // IV: riformista, liberale, pro-UE; Renzi si posiziona a centro con enfasi su riforme
+  // CHES 2024: lrgen≈5.1 → lr=0.1; galtan≈3.6 → au=-0.6; IV leggermente più a dx di Az su economia
+  
+  {id:'az',   n:'Azione',                  s:'Az',   c:'#0277BD', lr: 0.1, au:-0.9},
+  // Azione: liberal-riformista, atlantista, più libertaria di IV su diritti civili
+  // CHES 2024: lrgen≈5.0 → lr=0.0; galtan≈3.2 → au=-0.7; posizione propria (non con IV)
+  
+  {id:'pd',   n:'Partito Democratico',     s:'PD',   c:'#D32F2F', lr:-1.1, au:-0.6},
+  // PD: socialdemocratico, pro-UE, progressista ma non radicale; Schlein ha spostato leggermente a sx
+  // CHES 2024: lrgen≈3.1 → lr=-1.1; galtan≈3.4 → au=-0.6
+  
+  {id:'m5s',  n:'Movimento 5 Stelle',      s:'M5S',  c:'#F9A825', lr:-0.4, au: 0.3},
+  // M5S: populista, né sinistra né destra, ostile all'establishment; agenda sociale ma anche punitiva (manettari)
+  // CHES 2024: lrgen≈4.2 → lr=-0.5; galtan≈4.8 → au=-0.1; considero la svolta Conte e retorica giustizialista
+  
+  {id:'avs',  n:'Alleanza Verdi-Sinistra', s:'AVS',  c:'#2E7D32', lr:-2.0, au:-1.1},
+  // AVS: progressista-ecologista, diritti civili, anti-autoritaria, forte su ambiente
+  // CHES 2024: lrgen≈1.8 → lr=-1.9; galtan≈2.4 → au=-1.0
+];
+
+// Descrizioni sintetiche per il box "perché questo partito"
+const P_DESC={
+  fdi:`Fratelli d'Italia è il partito più grande del centrodestra italiano (29% nei sondaggi 2025). È radicato nella tradizione nazionale-conservatrice, con forte enfasi su identità nazionale, ordine pubblico, famiglia tradizionale e sovranità statale. In economia combina protezionismo su alcuni settori con flat tax e semplificazione fiscale. Ha una posizione ambigua sull'UE (critica i vincoli ma non vuole uscire dall'euro) e ha mantenuto il supporto all'Ucraina pur con sfumature sovraniste.`,
+  lega:`La Lega è un partito populista di destra con radici nel separatismo nordista, oggi forza nazionale sovranista. Priorità: sicurezza, immigrazione zero, flat tax, pensioni anticipate (Quota 41) e autonomia regionale differenziata. È scettica sull'UE e sull'euro, e ha mostrato ambiguità sul conflitto russo-ucraino. Economicamente è più interventista di FI su certi temi (tutele per categorie produttive).`,
+  fi:`Forza Italia è la forza liberal-conservatrice del centrodestra, erede del berlusconismo. Sotto Tajani ha assunto toni più moderati e filo-atlantici. Sostiene mercato, privatizzazioni, fisco mite per le imprese, meno enfasi sui valori sociali rispetto a FdI e Lega. È la componente più europeista della coalizione di governo.`,
+  noi:`Noi Moderati è la piccola componente democristiana del centrodestra. Valori cattolici, attenzione al welfare, postura moderata su immigrazione. Non è determinante numericamente ma esprime una sensibilità culturale specifica (anti-GPA, pro-scuole cattoliche, attenzione alla famiglia tradizionale ma con toni meno aggressivi).`,
+  iv:`Italia Viva è un partito riformista centrista fondato da Matteo Renzi. Favorisce liberalizzazioni, Jobs Act, merito, efficienza dello Stato. È fortemente pro-UE e atlantista. Su diritti civili è più avanzato di FI/NM ma meno di PD/AVS. Ha votato contro il salario minimo e per la separazione delle carriere in magistratura.`,
+  az:`Azione è il partito più liberale del centro italiano. Calenda lo posiziona su riformismo laico, efficienza statale, liberalizzazioni radicali (balneari, taxi, farmacie), atlantismo e pro-UE. Su diritti civili è libertario: favorevole al fine vita, contrario alla GPA come reato universale. È il più lontano da qualsiasi populismo.`,
+  pd:`Il Partito Democratico è la principale forza dell'opposizione. Con Schlein si è spostato verso sinistra su welfare, diritti, ambiente e lavoro. È europeista convinto, favorevole al salario minimo, al matrimonio egualitario e a un modello di integrazione inclusivo. La sua identità è la più plurale: ospita anime socialdemocratiche, verdi e liberal-progressiste.`,
+  m5s:`Il Movimento 5 Stelle è il partito populista per eccellenza: né destra né sinistra, ma con Conte si è avvicinato a posizioni di centrosinistra su welfare (Reddito di Cittadinanza) e pace (contrario all'invio di armi in Ucraina). È giustizialista in materia di giustizia, ambientalista per convenienza più che per convinzione, e anti-establishment nella retorica.`,
+  avs:`Alleanza Verdi e Sinistra è la forza più a sinistra del parlamento italiano. Forte su ambiente (no nucleare, sì rinnovabili, sì bando 2035), diritti civili (matrimonio egualitario, fine vita, diritti migranti), redistribuzione fiscale e stato sociale. È la più libertaria e progressista del panorama, vicina alla sinistra europea di Die Linke/Les Verts.`,
+};
+
+// ══════════════════════════════════════════════════════════════════════
+// DOMANDE
+// type:'mc' → 4 opzioni; p:{id:punteggio}
+// type:'lk' → likert 5 livelli; a:{agree} d:{disagree}
+//   scoring: 0(molto acc)→a*1, 1(abbast)→a*0.5, 2(neutro)→0, 3(abbast dis)→d*0.5, 4(molto dis)→d*1
+// ══════════════════════════════════════════════════════════════════════
+const Q=[
+
+// ─ ECONOMIA (5) ──────────────────────────────────────────────────────
+{type:'mc', s:'Economia e Fisco',
+ t:'Sul sistema fiscale italiano, quale modello preferisci?',
+ o:[
+  {t:'Flat tax unica per tutti i redditi: aliquota bassa, sistema semplice e uguale per tutti',p:{lega:3,fdi:2,fi:1}},
+  {t:'Flat tax solo per autonomi e piccole imprese; tasse progressive per i dipendenti',p:{fi:3,noi:2,fdi:1}},
+  {t:'IRPEF progressiva rafforzata con più detrazioni per redditi bassi e medi',p:{pd:3,iv:2,az:2,noi:1}},
+  {t:'Tassa patrimoniale sui grandi patrimoni per ridurre le tasse sul lavoro',p:{avs:3,pd:2,m5s:2}},
+]},
+
+{type:'lk', s:'Economia e Fisco',
+ t:'Il Reddito di Cittadinanza andava abolito: non incentivava la ricerca attiva di lavoro',
+ a:{fdi:3,lega:3,az:3,iv:3,fi:2,noi:2},
+ d:{m5s:3,avs:3,pd:2}},
+
+{type:'mc', s:'Economia e Fisco',
+ t:"Le spiagge in concessione ai privati devono essere messe a gara, come vuole l'UE:",
+ o:[
+  {t:'Sì, subito: la concorrenza abbassa i prezzi e premia chi offre di più',p:{az:3,iv:3,pd:2,avs:2}},
+  {t:'Sì, ma con tempi graduali e indennizzo per chi ha investito',p:{fi:3,noi:2,pd:1,iv:1}},
+  {t:'No: meglio negoziare un\'eccezione, la situazione italiana è diversa',p:{lega:3,noi:2,fdi:1,fi:1}},
+  {t:'No: chi gestisce da anni e ha costruito le strutture ha diritto al rinnovo',p:{fdi:3,lega:2,m5s:1}},
+]},
+
+{type:'lk', s:'Economia e Fisco',
+ t:'Il salario minimo legale a 9€/ora è una misura necessaria per combattere il lavoro povero',
+ a:{m5s:3,avs:3,pd:3},
+ d:{az:3,iv:3,fdi:2,lega:2,fi:2,noi:2}},
+
+{type:'mc', s:'Economia e Fisco',
+ t:"Sul debito pubblico italiano e la politica di bilancio, quale approccio preferisci?",
+ o:[
+  {t:'Va ridotto con riforme strutturali: la sostenibilità dei conti è la priorità',p:{az:3,iv:3,fi:2}},
+  {t:'Va ridotto gradualmente, ma senza tagliare welfare, sanità e istruzione',p:{pd:3,iv:1,fi:1}},
+  {t:'Il problema non è il debito ma la crescita: servono investimenti pubblici, anche in deficit',p:{m5s:3,avs:2,pd:1}},
+  {t:"I vincoli europei sul bilancio vanno rinegoziati: l'Italia deve poter investire di più",p:{fdi:2,lega:2,m5s:1}},
+]},
+
+// ─ IMMIGRAZIONE (4) ──────────────────────────────────────────────────
+{type:'mc', s:'Immigrazione',
+ t:"Sulla gestione dell'immigrazione, l'Italia dovrebbe:",
+ o:[
+  {t:"Aprire canali legali e investire nell'integrazione: l'immigrazione è una risorsa",p:{avs:3,pd:3,m5s:1}},
+  {t:'Gestire i flussi con quote annuali e rimpatri rapidi per chi non ha diritto',p:{iv:3,az:3,pd:1,fi:1}},
+  {t:"Bloccare l'immigrazione irregolare con ogni mezzo legale, tolleranza zero",p:{lega:3,fdi:2,fi:2,noi:2}},
+  {t:'Chiudere i porti e siglare accordi con i paesi di partenza',p:{fdi:3,lega:2}},
+]},
+
+{type:'lk', s:'Immigrazione',
+ t:"L'Italia ha bisogno di immigrazione: la popolazione invecchia e mancano lavoratori",
+ a:{avs:3,pd:3,az:2,iv:2,m5s:1},
+ d:{fdi:3,lega:3,noi:1}},
+
+{type:'mc', s:'Immigrazione',
+ t:'Sulla cittadinanza per i figli di immigrati nati o cresciuti in Italia:',
+ o:[
+  {t:'Ius soli: chi nasce in Italia da genitori regolari è italiano, come in quasi tutta Europa',p:{avs:3,pd:3,m5s:2}},
+  {t:'Ius scholae: cittadinanza dopo aver completato almeno un ciclo scolastico completo',p:{pd:2,iv:3,az:3,m5s:1}},
+  {t:'Troppo permissivo: la cittadinanza deve richiedere un percorso lungo e verificabile',p:{fi:3,noi:3,lega:1}},
+  {t:'Nessuna modifica: la cittadinanza si ottiene per sangue o con percorsi molto stringenti',p:{fdi:3,lega:2}},
+]},
+
+{type:'lk', s:'Immigrazione',
+ t:"Le ONG che effettuano soccorso in mare svolgono un servizio umanitario fondamentale",
+ a:{avs:3,pd:3,m5s:1},
+ d:{fdi:3,lega:3,fi:1,noi:2}},
+
+// ─ EUROPA (4) ────────────────────────────────────────────────────────
+{type:'lk', s:'Europa e Politica Estera',
+ t:"L'Italia deve continuare a inviare armi all'Ucraina per difendersi dall'invasione russa",
+ a:{fi:3,az:3,iv:3,fdi:2,pd:2,noi:2},
+ d:{m5s:3,avs:2,lega:2}},
+
+{type:'mc', s:'Europa e Politica Estera',
+ t:"Sul ruolo dell'Italia nell'Unione Europea:",
+ o:[
+  {t:"Più integrazione europea: difesa comune, politica estera unica, fisco armonizzato",p:{az:3,pd:2,avs:2,iv:2}},
+  {t:"L'UE va riformata in senso più democratico; l'Italia deve guidare questa riforma",p:{pd:3,m5s:2,iv:1,avs:1}},
+  {t:"Difendere la sovranità italiana nei negoziati, ma restare nell'UE e nell'euro",p:{fi:3,noi:2,fdi:1}},
+  {t:"Rinegoziare i trattati europei, o prepararsi a uscire se le condizioni non cambiano",p:{fdi:2,lega:3}},
+]},
+
+{type:'mc', s:'Europa e Politica Estera',
+ t:"Sul sistema di difesa e la NATO:",
+ o:[
+  {t:"Rispettare gli impegni NATO (2% PIL) e costruire una difesa europea integrata",p:{fi:3,az:3,iv:3,fdi:2}},
+  {t:"Sì alla NATO, ma più autonomia europea dagli USA: serve un esercito comune europeo",p:{pd:3,noi:2,iv:1}},
+  {t:"Ridurre le spese militari e puntare sulla diplomazia come strumento principale",p:{avs:3,pd:1,m5s:2}},
+  {t:"L'Italia non si deve immischiare nei conflitti altrui: neutralità prima di tutto",p:{m5s:2,lega:1,avs:1}},
+]},
+
+// ─ AMBIENTE (3) ──────────────────────────────────────────────────────
+{type:'mc', s:'Ambiente ed Energia',
+ t:'Sul ritorno al nucleare in Italia (nuova generazione, reattori sicuri e modulari):',
+ o:[
+  {t:'Va sviluppato subito: è la soluzione migliore per sicurezza energetica e clima',p:{fdi:3,fi:3,lega:2,az:2,iv:2}},
+  {t:'Può essere utile in futuro, ma serve un dibattito pubblico serio prima di decidere',p:{pd:2,noi:2,iv:1}},
+  {t:'Meglio puntare tutto sulle rinnovabili: sono già mature e più veloci da realizzare',p:{avs:2,m5s:2,pd:1}},
+  {t:'No al nucleare: rischi e costi delle scorie non lo rendono adatto all\'Italia',p:{avs:3,m5s:3}},
+]},
+
+{type:'lk', s:'Ambiente ed Energia',
+ t:"Dal 2035 in Europa non si potranno vendere auto a benzina o diesel: è una scelta giusta",
+ a:{avs:3,pd:3},
+ d:{fdi:3,lega:3,fi:2,az:2,iv:2,noi:2}},
+
+{type:'mc', s:'Ambiente ed Energia',
+ t:'Sulla politica energetica italiana, la priorità dovrebbe essere:',
+ o:[
+  {t:'Accelerare sulle rinnovabili e bloccare nuovi impianti a gas',p:{avs:3,pd:2,m5s:1}},
+  {t:'Mix equilibrato: rinnovabili, gas di transizione e apertura al nucleare',p:{fi:3,fdi:2,noi:2,iv:2,az:2}},
+  {t:'Prezzi bassi per famiglie e imprese: usare le fonti più convenienti disponibili',p:{lega:3,fdi:2,fi:1}},
+  {t:"Autosufficienza: sfruttare gas italiano e rinnovabili per non dipendere dall'estero",p:{fdi:3,lega:2,m5s:1}},
+]},
+
+// ─ DIRITTI CIVILI (4) ────────────────────────────────────────────────
+{type:'mc', s:'Diritti Civili',
+ t:'Sul riconoscimento legale delle coppie dello stesso sesso:',
+ o:[
+  {t:"Matrimonio egualitario pieno, con adozione congiunta come per le coppie eterosessuali",p:{avs:3,pd:3,az:2,iv:2}},
+  {t:"Le unioni civili vanno bene; il figlio del partner può essere riconosciuto anche dall'altro",p:{pd:1,iv:1,az:1,fi:1,m5s:1}},
+  {t:'Le unioni civili esistenti sono già sufficienti: nessuna estensione ulteriore',p:{fi:2,noi:3,lega:1}},
+  {t:'Contrario anche alle unioni civili: la famiglia è solo quella tra uomo e donna',p:{fdi:3,lega:2,noi:1}},
+]},
+
+{type:'lk', s:'Diritti Civili',
+ t:"Chi è malato terminale dovrebbe poter scegliere di morire con assistenza medica: va regolamentato per legge",
+ a:{avs:3,az:3,pd:3,iv:2,m5s:2},
+ d:{fdi:3,noi:3,lega:2,fi:2}},
+
+{type:'lk', s:'Diritti Civili',
+ t:"Pagare una donna per portare avanti una gravidanza per altri (utero in affitto) dovrebbe essere reato anche se fatto all'estero",
+ a:{fdi:3,noi:3,lega:3,fi:2},
+ d:{avs:3,pd:3,az:2,iv:2,m5s:1}},
+
+{type:'mc', s:'Diritti Civili',
+ t:'Quanto dovrebbero influire i valori religiosi sulle leggi e le politiche italiane?',
+ o:[
+  {t:'Per niente: lo Stato deve essere laico e il Concordato con la Chiesa va rivisto',p:{avs:3,pd:2,az:2,iv:2}},
+  {t:'Poco: la tradizione cattolica fa parte della nostra cultura, ma le leggi restano laiche',p:{pd:1,fi:2,noi:2,iv:1}},
+  {t:'Abbastanza: i valori cristiani devono orientare le scelte su famiglia, vita e scuola',p:{noi:3,fdi:2,lega:1,fi:1}},
+  {t:'Molto: la civiltà cristiana è il fondamento dell\'identità italiana e va difesa nelle istituzioni',p:{fdi:3,noi:2,lega:2}},
+]},
+
+// ─ SICUREZZA E GIUSTIZIA (3) ─────────────────────────────────────────
+{type:'mc', s:'Sicurezza e Giustizia',
+ t:"Un magistrato che ha fatto il pubblico ministero (accusatore) può poi fare il giudice nello stesso tipo di processo?",
+ o:[
+  {t:'No: le carriere vanno separate per legge, è un conflitto di interessi evidente',p:{fi:3,az:3,iv:3,fdi:2}},
+  {t:'Va riformato l\'organo di autogoverno dei magistrati (CSM), la separazione delle carriere è eccessiva',p:{pd:2,m5s:2,avs:2}},
+  {t:'La magistratura funziona: queste riforme sono pretesti politici per controllare i giudici',p:{avs:3,m5s:2,pd:1}},
+  {t:'Serve una riforma seria del CSM, ma senza usarla come arma contro i magistrati scomodi',p:{pd:2,noi:2,iv:1,az:1}},
+]},
+
+{type:'lk', s:'Sicurezza e Giustizia',
+ t:"In Italia le pene per i reati gravi sono troppo basse: i criminali sanno di cavarsela facilmente",
+ a:{fdi:3,lega:3,fi:2,noi:2},
+ d:{avs:3,pd:2,m5s:2,az:1}},
+
+{type:'mc', s:'Sicurezza e Giustizia',
+ t:"A cosa serve principalmente il carcere?",
+ o:[
+  {t:'A rieducare e reinserire: vanno potenziati i percorsi alternativi alla detenzione',p:{avs:3,pd:3,m5s:2}},
+  {t:'Sia a rieducare che a punire: le due cose non si escludono',p:{pd:1,iv:2,fi:2,az:2}},
+  {t:'A punire con certezza: le riduzioni di pena per buona condotta vanno ridotte',p:{fi:3,noi:3,lega:2}},
+  {t:'A togliere i criminali dalla strada: chi ha fatto danni gravi deve scontare tutto',p:{fdi:3,lega:2}},
+]},
+
+// ─ STATO E ISTITUZIONI (4) ───────────────────────────────────────────
+{type:'lk', s:'Stato e Istituzioni',
+ t:"Il Presidente del Consiglio dovrebbe essere eletto direttamente dai cittadini, non scelto dai partiti in parlamento",
+ a:{fdi:3,lega:2,fi:1},
+ d:{avs:3,pd:3,az:3,iv:3,m5s:2}},
+
+{type:'mc', s:'Stato e Istituzioni',
+ t:"Le regioni del Nord che gestiscono meglio i servizi (sanità, scuola, trasporti) dovrebbero avere più autonomia e trattenere più tasse, anche se questo crea differenze col Sud:",
+ o:[
+  {t:'Sì: premiare chi è efficiente è giusto e spinge le altre regioni a migliorare',p:{lega:3,fdi:1,fi:2}},
+  {t:'Sì, ma solo se prima si garantisce a tutti i cittadini lo stesso livello minimo di servizi',p:{fi:2,noi:2,fdi:2}},
+  {t:'No: allarga il divario Nord-Sud e frammenta servizi essenziali come sanità e scuola',p:{pd:3,m5s:3,iv:2,az:2,avs:2}},
+  {t:"No: l'Italia è un paese unico, serve coesione non separazione",p:{avs:3,pd:2,m5s:2}},
+]},
+
+{type:'lk', s:'Stato e Istituzioni',
+ t:"La RAI è troppo controllata dal governo di turno: dovrebbe diventare davvero indipendente dalla politica",
+ a:{az:3,iv:3,avs:3,pd:3,m5s:2},
+ d:{fdi:2,lega:2}},
+
+{type:'mc', s:'Stato e Istituzioni',
+ t:"Sul sistema pensionistico italiano, quale approccio preferisci?",
+ o:[
+  {t:"Chi ha lavorato e versato contributi per 41 anni può andare in pensione, indipendentemente dall'età",p:{lega:3,fdi:2,m5s:2}},
+  {t:"Va riformato per essere equo tra giovani e anziani: flessibilità vera, ma il sistema deve reggere",p:{pd:3,iv:3,az:2,fi:2}},
+  {t:"L'età pensionabile a 67 anni non si tocca: è l'unico modo per tenere in piedi i conti",p:{az:2,iv:1,fi:1}},
+  {t:"Pensione minima garantita per tutti gli anziani: chi ha poco non deve vivere in povertà",p:{m5s:3,avs:3,pd:2}},
+]},
+];
+
+// ══ STATE ══
+let cur=0;
+const ans=new Array(Q.length).fill(null);
+
+// ══ RENDERING ══
+function renderCard(){
+  const q=Q[cur];
+  const card=document.getElementById('qCard');
+  card.style.animation='none';
+  void card.offsetWidth;
+  card.style.animation='';
+  if(q.type==='mc') renderMC(q,card);
+  else renderLK(q,card);
+}
+
+function renderMC(q,card){
+  const L=['A','B','C','D'];
+  let html=`<div class="type-tag"><span class="dot dot-mc"></span>Scelta multipla</div>
+    <p class="qtext">${q.t}</p><ul class="opt-list">`;
+  q.o.forEach((o,i)=>html+=`<li class="opt${ans[cur]===i?' sel':''}" data-i="${i}">
+    <span class="opt-l">${L[i]}</span><span class="opt-t">${o.t}</span></li>`);
+  html+=`</ul>`;
+  card.innerHTML=html;
+  card.querySelectorAll('.opt').forEach(el=>el.addEventListener('click',()=>pickMC(+el.dataset.i)));
+}
+
+function renderLK(q,card){
+  const L=["Molto d'accordo","Abbastanza d'accordo","Neutro","Abbastanza in disaccordo","Molto in disaccordo"];
+  let html=`<div class="type-tag"><span class="dot dot-lk"></span>Quanto sei d'accordo?</div>
+    <div class="stmt-wrap"><div class="stmt-label">Affermazione</div>
+    <p class="stmt-text">${q.t}</p></div><div class="lk-scale">`;
+  L.forEach((l,i)=>html+=`<button class="lk-btn${ans[cur]===i?' sel':''}" data-i="${i}">
+    <span class="lk-dot"></span>${l}</button>`);
+  html+=`</div><div class="scale-labels"><span>← D'accordo</span><span>In disaccordo →</span></div>`;
+  card.innerHTML=html;
+  card.querySelectorAll('.lk-btn').forEach(el=>el.addEventListener('click',()=>pickLK(+el.dataset.i)));
+}
+
+function pickMC(i){
+  ans[cur]=i;
+  document.querySelectorAll('.opt').forEach((el,idx)=>el.classList.toggle('sel',idx===i));
+}
+function pickLK(i){
+  ans[cur]=i;
+  document.querySelectorAll('.lk-btn').forEach((el,idx)=>el.classList.toggle('sel',idx===i));
+}
+
+function updateMeta(){
+  const q=Q[cur];
+  document.getElementById('sBadge').textContent=q.s;
+  document.getElementById('qNum').textContent=`${cur+1} / ${Q.length}`;
+  document.getElementById('pbf').style.width=`${(cur/Q.length)*100}%`;
+  document.getElementById('bBack').disabled=cur===0;
+  document.getElementById('bFwd').textContent=cur===Q.length-1?'Vedi Risultati →':'Avanti →';
+}
+
+function go(d){
+  if(d===1&&cur===Q.length-1){showResults();return;}
+  cur=Math.max(0,Math.min(Q.length-1,cur+d));
+  updateMeta();renderCard();
+}
+
+function start(){
+  document.getElementById('S0').classList.remove('on');
+  document.getElementById('S1').classList.add('on');
+  cur=0;updateMeta();renderCard();
+}
+
+// ══ SCORING ══
+function optScores(q,oi){
+  if(q.type==='mc') return q.o[oi].p;
+  const r={};
+  if(oi===2) return r; // neutro
+  if(oi<=1){
+    const m=oi===0?1:.5;
+    Object.entries(q.a).forEach(([k,v])=>r[k]=Math.round(v*m));
+  } else {
+    const m=oi===4?1:.5;
+    Object.entries(q.d).forEach(([k,v])=>r[k]=Math.round(v*m));
+  }
+  return r;
+}
+
+function maxPartyScore(q,pid){
+  if(q.type==='mc') return Math.max(...q.o.map(o=>o.p[pid]||0));
+  return Math.max(q.a[pid]||0,q.d[pid]||0);
+}
+
+function calcScores(){
+  const sc={},mx={};
+  P.forEach(p=>{sc[p.id]=0;mx[p.id]=0;});
+  Q.forEach((q,qi)=>{
+    P.forEach(p=>mx[p.id]+=maxPartyScore(q,p.id));
+    if(ans[qi]!==null){
+      const os=optScores(q,ans[qi]);
+      P.forEach(p=>sc[p.id]+=(os[p.id]||0));
+    }
+  });
+  const pct={};
+  P.forEach(p=>pct[p.id]=mx[p.id]>0?Math.round((sc[p.id]/mx[p.id])*100):0);
+  return{pct,sc};
+}
+
+function userAxis(sc,ax){
+  let ws=0,tw=0;
+  P.forEach(p=>{ws+=sc[p.id]*p[ax];tw+=sc[p.id];});
+  return tw>0?ws/tw:0;
+}
+
+// ══ ANALISI ACCORDO/DISACCORDO per il partito top ══
+function getTopAgreements(topPartyId, limit=5){
+  const party=P.find(p=>p.id===topPartyId);
+  const items=[];
+
+  Q.forEach((q,qi)=>{
+    if(ans[qi]===null) return;
+
+    // Per ogni domanda, qual è l'opzione "ideale" per questo partito?
+    let bestOptIdx=0, bestScore=0;
+    if(q.type==='mc'){
+      q.o.forEach((o,i)=>{
+        const s=o.p[topPartyId]||0;
+        if(s>bestScore){bestScore=s;bestOptIdx=i;}
+      });
+      const userScore=q.o[ans[qi]].p[topPartyId]||0;
+      const agree=userScore>=bestScore*.5; // considera "accordo" se prende almeno metà del max
+      const strong=userScore>=bestScore*.8;
+      items.push({
+        text:q.t,
+        agree,strong,
+        userChoice:q.o[ans[qi]].t,
+        partyChoice:q.o[bestOptIdx].t,
+        same:ans[qi]===bestOptIdx
+      });
+    } else {
+      // Per Likert: controlla se l'utente e il partito sono dallo stesso lato
+      const partyAgreeScore=q.a[topPartyId]||0;
+      const partyDisagScore=q.d[topPartyId]||0;
+      const partyStance=partyAgreeScore>partyDisagScore?'agree':'disagree';
+      const userStance=ans[qi]<=1?'agree':ans[qi]>=3?'disagree':'neutral';
+      const agree=userStance===partyStance||(userStance==='neutral');
+      items.push({
+        text:q.t,
+        agree:userStance===partyStance,
+        strong:(userStance==='agree'&&ans[qi]===0&&partyStance==='agree')||(userStance==='disagree'&&ans[qi]===4&&partyStance==='disagree'),
+        userChoice: ans[qi]<=1?"D'accordo":ans[qi]>=3?"In disaccordo":"Neutro",
+        partyChoice:partyStance==='agree'?"D'accordo":"In disaccordo",
+        same:userStance===partyStance
+      });
+    }
+  });
+
+  // ordina: prima i concordi forti, poi i discordi
+  const concordi=items.filter(x=>x.same).sort((a,b)=>b.strong-a.strong).slice(0,3);
+  const discordi=items.filter(x=>!x.same&&x.userChoice!=='Neutro').sort((a,b)=>a.agree-b.agree).slice(0,2);
+  return{concordi,discordi};
+}
+
+// ══ RESULTS ══
+function showResults(){
+  document.getElementById('S1').classList.remove('on');
+  document.getElementById('S2').classList.add('on');
+
+  const{pct,sc}=calcScores();
+  const sorted=[...P].sort((a,b)=>pct[b.id]-pct[a.id]);
+  const answered=ans.filter(a=>a!==null).length;
+  const top=sorted[0];
+
+  document.getElementById('rSub').textContent=`Hai risposto a ${answered} domande su ${Q.length}`;
+
+  // Top 3 cards
+  const t3=document.getElementById('top3');
+  t3.innerHTML='';
+  [['🥇 Prima scelta','r1','g'],['🥈 Seconda scelta','r2',''],['🥉 Terza scelta','r3','']].forEach(([lbl,cls,gc],i)=>{
+    const p=sorted[i];
+    const d=document.createElement('div');
+    d.className=`tc ${cls}`;
+    d.innerHTML=`<div class="tc-rank ${gc}">${lbl}</div><div class="tc-party">${p.s}</div>
+      <div class="tc-name">${p.n}</div><div class="tc-pct" style="color:${p.c}">${pct[p.id]}%</div>`;
+    t3.appendChild(d);
+  });
+
+  // Profile desc
+  const lr=userAxis(sc,'lr'),au=userAxis(sc,'au');
+  const lrD=lr>1.5?'destra':lr>0.6?'centro-destra':lr>-0.6?'centro':lr>-1.5?'centro-sinistra':'sinistra';
+  const auD=au>0.7?'tendenza conservatrice-autoritaria':au>0.2?'lieve orientamento conservatore':au>-0.3?'orientamento moderato':au>-0.7?'lieve orientamento libertario':'orientamento libertario-progressista';
+  const euroD=lr>1?'tendenzialmente euroscettico':'tendenzialmente europeista';
+  document.getElementById('pDesc').textContent=
+    `Le tue risposte delineano un profilo di ${lrD} con ${auD}, ${euroD}. `+
+    `Sul piano economico ${sc['az']>sc['m5s']?'prediligi soluzioni di mercato rispetto alla spesa pubblica':'tendi a preferire politiche redistributive e di welfare'}. `+
+    `Su diritti civili e valori ${au<0?'hai posizioni progressiste e laiche':'hai posizioni più tradizionaliste'}. `+
+    `La tua posizione nella bussola politica è posizionata a ${Math.abs(lr).toFixed(1)} unità verso ${lr>0?'destra':'sinistra'} e ${Math.abs(au).toFixed(1)} unità verso ${au>0?'l\'autoritarismo':'la libertà individuale'} rispetto al centro.`;
+
+  // Why this party
+  document.getElementById('whyLabel').textContent=`Perché ${top.n} (${pct[top.id]}%)?`;
+  document.getElementById('whyText').textContent=P_DESC[top.id];
+
+  // Concordanze
+  const{concordi,discordi}=getTopAgreements(top.id);
+  const agEl=document.getElementById('agreesEl');
+  agEl.innerHTML='';
+  if(concordi.length>0){
+    const hdr=document.createElement('div');
+    hdr.style.cssText='font-size:.72rem;color:var(--grn);font-weight:600;letter-spacing:.08em;text-transform:uppercase;margin-bottom:.6rem';
+    hdr.textContent=`✓ Dove concordate con ${top.s}`;
+    agEl.appendChild(hdr);
+    concordi.forEach(x=>{
+      const row=document.createElement('div');
+      row.className='agree-row';
+      row.innerHTML=`<div class="agree-icon y">✓</div>
+        <div><div class="agree-text">${x.text.length>90?x.text.slice(0,90)+'…':x.text}</div>
+        <div class="agree-note">La tua risposta: "${x.userChoice.slice(0,70)}${x.userChoice.length>70?'…':''}"</div></div>`;
+      agEl.appendChild(row);
+    });
+  }
+  if(discordi.length>0){
+    const hdr=document.createElement('div');
+    hdr.style.cssText='font-size:.72rem;color:var(--red);font-weight:600;letter-spacing:.08em;text-transform:uppercase;margin-top:1rem;margin-bottom:.6rem';
+    hdr.textContent=`✗ Dove divergete da ${top.s}`;
+    agEl.appendChild(hdr);
+    discordi.forEach(x=>{
+      const row=document.createElement('div');
+      row.className='agree-row';
+      row.innerHTML=`<div class="agree-icon n">✗</div>
+        <div><div class="agree-text">${x.text.length>90?x.text.slice(0,90)+'…':x.text}</div>
+        <div class="agree-note">Loro: "${x.partyChoice}" — Tu: "${x.userChoice.slice(0,60)}${x.userChoice.length>60?'…':''}"</div></div>`;
+      agEl.appendChild(row);
+    });
+  }
+
+  // Bars
+  const bEl=document.getElementById('barsEl');
+  bEl.innerHTML='';
+  sorted.forEach(p=>{
+    const r=document.createElement('div');
+    r.className='brow';
+    r.innerHTML=`<div class="bn">${p.s}</div>
+      <div class="bt"><div class="bf" style="width:0%;background:${p.c}" data-p="${pct[p.id]}"></div></div>
+      <div class="bpct">${pct[p.id]}%</div>`;
+    bEl.appendChild(r);
+  });
+  setTimeout(()=>document.querySelectorAll('.bf').forEach(el=>el.style.width=el.dataset.p+'%'),80);
+
+  drawCompass(lr,au,pct);
+}
+
+// ══ COMPASS ══
+function drawCompass(lr,au,pct){
+  const svg=document.getElementById('cSvg');
+  const W=520,H=440,m=72,cW=W-m*2,cH=H-m*2-8;
+  const cx=m+cW/2,cy=m+cH/2,sc=Math.min(cW,cH)/2;
+  const tx=v=>cx+(v/3)*sc,ty=v=>cy-(v/3)*sc;
+
+  // Quadrant labels
+  let h=`
+    <rect x="${m}" y="${m}" width="${cW}" height="${cH}" fill="#0A1220" stroke="#1C2D48" rx="4"/>
+    <!-- quadrant shading -->
+    <rect x="${cx}" y="${m}" width="${cW/2}" height="${cH/2}" fill="#160A00" opacity=".3"/>
+    <rect x="${m}" y="${m}" width="${cW/2}" height="${cH/2}" fill="#160800" opacity=".15"/>
+    <rect x="${m}" y="${cy}" width="${cW/2}" height="${cH/2}" fill="#00100A" opacity=".2"/>
+    <rect x="${cx}" y="${cy}" width="${cW/2}" height="${cH/2}" fill="#000C16" opacity=".25"/>
+    <!-- quadrant text labels -->
+    <text x="${m+8}" y="${m+18}" fill="#2A3A2A" font-size="8.5" font-family="DM Sans">Sinistra Libertaria</text>
+    <text x="${m+cW-8}" y="${m+18}" fill="#3A2A12" font-size="8.5" font-family="DM Sans" text-anchor="end">Destra Autoritaria</text>
+    <text x="${m+8}" y="${m+cH-8}" fill="#0A2A1A" font-size="8.5" font-family="DM Sans">Sinistra Libertaria</text>
+    <text x="${m+cW-8}" y="${m+cH-8}" fill="#2A1A0A" font-size="8.5" font-family="DM Sans" text-anchor="end">Destra Libertaria</text>
+    <!-- axes -->
+    <line x1="${m}" y1="${cy}" x2="${m+cW}" y2="${cy}" stroke="#253A5A" stroke-width="1"/>
+    <line x1="${cx}" y1="${m}" x2="${cx}" y2="${m+cH}" stroke="#253A5A" stroke-width="1"/>
+    <!-- axis labels -->
+    <text x="${m+8}" y="${cy-7}" fill="#3A5070" font-size="9" font-family="DM Sans">← SINISTRA</text>
+    <text x="${m+cW-8}" y="${cy-7}" fill="#3A5070" font-size="9" font-family="DM Sans" text-anchor="end">DESTRA →</text>
+    <text x="${cx+6}" y="${m+13}" fill="#3A5070" font-size="9" font-family="DM Sans">AUTORITARIO ↑</text>
+    <text x="${cx+6}" y="${m+cH-5}" fill="#3A5070" font-size="9" font-family="DM Sans">↓ LIBERTARIO</text>`;
+
+  // Party dots — size proportional to match percentage
+  P.forEach(p=>{
+    const px=tx(p.lr),py=ty(p.au);
+    const op=Math.max(.22,.22+(pct[p.id]/100)*.78);
+    const r=3.5+(pct[p.id]/100)*9;
+    h+=`<circle cx="${px}" cy="${py}" r="${r}" fill="${p.c}" opacity="${op}"/>
+        <text x="${px}" y="${py-r-3}" text-anchor="middle" fill="${p.c}"
+          font-size="9" font-family="DM Sans" font-weight="600" opacity="${Math.min(1,op+.2)}">${p.s}</text>`;
+  });
+
+  // User dot
+  const ux=tx(lr),uy=ty(au);
+  h+=`<circle cx="${ux}" cy="${uy}" r="14" fill="none" stroke="#C8A455" stroke-width="1.5" opacity=".55" stroke-dasharray="3,2"/>
+      <circle cx="${ux}" cy="${uy}" r="5.5" fill="#C8A455"/>
+      <text x="${ux}" y="${uy+24}" text-anchor="middle" fill="#C8A455"
+        font-size="9.5" font-weight="600" font-family="DM Sans">TU</text>`;
+
+  svg.innerHTML=h;
+}
+
+function restart(){
+  cur=0;ans.fill(null);
+  document.getElementById('S2').classList.remove('on');
+  document.getElementById('S0').classList.add('on');
+}
+</script>
+</body>
+</html>
