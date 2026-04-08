@@ -311,200 +311,362 @@ const P_DESC={
 const Q=[
 
 // ─ ECONOMIA (5) ──────────────────────────────────────────────────────
+
+// Q1 — SISTEMA FISCALE
+// 4 posizioni genuinamente diverse: flat tax totale / flat tax parziale / progressività / patrimoniale
 {type:'mc', s:'Economia e Fisco',
  t:'Sul sistema fiscale italiano, quale modello preferisci?',
  o:[
-  {t:'Flat tax unica per tutti i redditi: aliquota bassa, sistema semplice e uguale per tutti',p:{lega:3,fdi:2,fi:1}},
-  {t:'Flat tax solo per autonomi e piccole imprese; tasse progressive per i dipendenti',p:{fi:3,noi:2,fdi:1}},
-  {t:'IRPEF progressiva rafforzata con più detrazioni per redditi bassi e medi',p:{pd:3,iv:2,az:2,noi:1}},
-  {t:'Tassa patrimoniale sui grandi patrimoni per ridurre le tasse sul lavoro',p:{avs:3,pd:2,m5s:2}},
+  {t:'Flat tax unica per tutti: aliquota uguale e bassa, indipendentemente dal reddito',
+   p:{lega:3,fdi:2}},
+  {t:'Flat tax per autonomi e imprese; tasse progressive per i lavoratori dipendenti',
+   p:{fi:3,noi:2,fdi:1}},
+  {t:'Tasse progressive rafforzate: chi guadagna di più paga proporzionalmente di più',
+   p:{pd:3,iv:2,az:2,noi:1}},
+  {t:'Patrimoniale sui grandi patrimoni per finanziare una riduzione delle tasse sul lavoro',
+   p:{avs:3,pd:2,m5s:2}},
 ]},
 
+// Q2 — REDDITO DI CITTADINANZA
 {type:'lk', s:'Economia e Fisco',
- t:'Il Reddito di Cittadinanza andava abolito: non incentivava la ricerca attiva di lavoro',
+ t:'Il Reddito di Cittadinanza andava abolito: non incentivava la ricerca di lavoro',
  a:{fdi:3,lega:3,az:3,iv:3,fi:2,noi:2},
  d:{m5s:3,avs:3,pd:2}},
 
+// Q3 — CONCESSIONI BALNEARI / BOLKESTEIN
+// Opzione A: rispettare la direttiva UE subito (centro-sinistra liberal)
+// Opzione B: sì ma graduale, con indennizzo (centrodestra moderato FI)
+// Opzione C: eccezione italiana, tutela categoria (Lega — bacino elettorale storico dei balneari)
+// Opzione D: rinnovo automatico di diritto (FdI — protezionismo identitario, M5S opportunista)
 {type:'mc', s:'Economia e Fisco',
- t:"Le spiagge in concessione ai privati devono essere messe a gara, come vuole l'UE:",
+ t:"Le spiagge in concessione ai privati devono essere messe a gara, come chiede l'UE:",
  o:[
-  {t:'Sì, subito: la concorrenza abbassa i prezzi e premia chi offre di più',p:{az:3,iv:3,pd:2,avs:2}},
-  {t:'Sì, ma con tempi graduali e indennizzo per chi ha investito',p:{fi:3,noi:2,pd:1,iv:1}},
-  {t:'No: meglio negoziare un\'eccezione, la situazione italiana è diversa',p:{lega:3,noi:2,fdi:1,fi:1}},
-  {t:'No: chi gestisce da anni e ha costruito le strutture ha diritto al rinnovo',p:{fdi:3,lega:2,m5s:1}},
+  {t:'Sì, subito: la concorrenza abbassa i prezzi e premia chi offre servizi migliori',
+   p:{az:3,iv:3,pd:2,avs:2}},
+  {t:'Sì, ma con tempi graduali e un indennizzo equo per chi ha investito negli anni',
+   p:{fi:3,noi:2,pd:1}},
+  {t:'No: i gestori italiani vanno tutelati, serve una deroga negoziata con Bruxelles',
+   p:{lega:3,noi:1,fdi:1}},
+  {t:'No: chi gestisce da decenni e ha costruito le strutture ha diritto al rinnovo automatico',
+   p:{fdi:3,m5s:2,lega:1}},
 ]},
 
+// Q4 — SALARIO MINIMO LEGALE
 {type:'lk', s:'Economia e Fisco',
- t:'Il salario minimo legale a 9€/ora è una misura necessaria per combattere il lavoro povero',
+ t:'Il salario minimo legale a 9€/ora è necessario per combattere il lavoro povero in Italia',
  a:{m5s:3,avs:3,pd:3},
  d:{az:3,iv:3,fdi:2,lega:2,fi:2,noi:2}},
 
+// Q5 — DEBITO PUBBLICO E POLITICA DI BILANCIO
+// FIX: le 4 opzioni ora occupano spazi DISTINTI:
+// A = rigore liberale strutturale (Az, IV, FI)
+// B = riequilibrio sociale senza tagli al welfare (PD)  ← diverso da C perché accetta la riduzione del debito come obiettivo
+// C = keynesismo espansivo: spendere di più per crescere (AVS, M5S)  ← diverso da B: il debito NON è il problema
+// D = sovranismo fiscale: rinegoziare i vincoli UE (FdI, Lega)  ← diverso da C: il problema sono i vincoli esterni
 {type:'mc', s:'Economia e Fisco',
- t:"Sul debito pubblico italiano e la politica di bilancio, quale approccio preferisci?",
+ t:"Come affrontare il debito pubblico italiano (oltre il 135% del PIL)?",
  o:[
-  {t:'Va ridotto con riforme strutturali: la sostenibilità dei conti è la priorità',p:{az:3,iv:3,fi:2}},
-  {t:'Va ridotto gradualmente, ma senza tagliare welfare, sanità e istruzione',p:{pd:3,iv:1,fi:1}},
-  {t:'Il problema non è il debito ma la crescita: servono investimenti pubblici, anche in deficit',p:{m5s:3,avs:2,pd:1}},
-  {t:"I vincoli europei sul bilancio vanno rinegoziati: l'Italia deve poter investire di più",p:{fdi:2,lega:2,m5s:1}},
+  {t:'Ridurlo con riforme serie e tagli agli sprechi: senza conti in ordine non c\'è futuro',
+   p:{az:3,iv:3,fi:2}},
+  {t:'Ridurlo gradualmente, proteggendo però sanità, scuola e pensioni dai tagli',
+   p:{pd:3,noi:1,fi:1}},
+  {t:'Il debito in sé non è il problema: l\'Italia deve investire di più per far crescere l\'economia',
+   p:{m5s:3,avs:3,pd:1}},
+  {t:'I vincoli europei sul bilancio ci bloccano: vanno rinegoziati per dare all\'Italia più libertà',
+   p:{fdi:3,lega:3}},
 ]},
 
 // ─ IMMIGRAZIONE (4) ──────────────────────────────────────────────────
+
+// Q6 — POLITICA MIGRATORIA GENERALE
+// FIX: FI/NM, Lega e FdI su opzioni chiaramente separate per gradazione
+// A = apertura e integrazione (AVS, PD)
+// B = gestione pragmatica con regole chiare (Az, IV, FI moderata)
+// C = chiusura all'irregolare ma dentro il diritto internazionale (Lega, NM)
+// D = blocco totale e accordi di esternalizzazione (FdI)
 {type:'mc', s:'Immigrazione',
  t:"Sulla gestione dell'immigrazione, l'Italia dovrebbe:",
  o:[
-  {t:"Aprire canali legali e investire nell'integrazione: l'immigrazione è una risorsa",p:{avs:3,pd:3,m5s:1}},
-  {t:'Gestire i flussi con quote annuali e rimpatri rapidi per chi non ha diritto',p:{iv:3,az:3,pd:1,fi:1}},
-  {t:"Bloccare l'immigrazione irregolare con ogni mezzo legale, tolleranza zero",p:{lega:3,fdi:2,fi:2,noi:2}},
-  {t:'Chiudere i porti e siglare accordi con i paesi di partenza',p:{fdi:3,lega:2}},
+  {t:'Aprire canali legali e investire nell\'integrazione: l\'immigrazione gestita bene è una risorsa',
+   p:{avs:3,pd:3,m5s:1}},
+  {t:'Gestire i flussi con quote annuali, rimpatri certi per chi non ha diritto e integrazione obbligatoria',
+   p:{az:3,iv:3,fi:2,pd:1}},
+  {t:'Bloccare l\'immigrazione irregolare con ogni mezzo legale e rimpatriare chi non ha titolo',
+   p:{lega:3,noi:2,fi:1}},
+  {t:'Chiudere i porti, blocco navale e accordi con i paesi di transito: zero sbarchi',
+   p:{fdi:3,lega:1}},
 ]},
 
+// Q7 — IMMIGRAZIONE ECONOMICAMENTE NECESSARIA
 {type:'lk', s:'Immigrazione',
  t:"L'Italia ha bisogno di immigrazione: la popolazione invecchia e mancano lavoratori",
  a:{avs:3,pd:3,az:2,iv:2,m5s:1},
- d:{fdi:3,lega:3,noi:1}},
+ d:{fdi:3,lega:3,noi:2,fi:1}},
 
+// Q8 — CITTADINANZA AI FIGLI DI IMMIGRATI
+// A = ius soli (sinistra: come quasi tutta Europa)
+// B = ius scholae dopo ciclo scolastico (centro-sinistra, centro)
+// C = percorso lungo e dimostrabile (centrodestra moderato)
+// D = ius sanguinis puro, nessuna modifica (destra)
 {type:'mc', s:'Immigrazione',
  t:'Sulla cittadinanza per i figli di immigrati nati o cresciuti in Italia:',
  o:[
-  {t:'Ius soli: chi nasce in Italia da genitori regolari è italiano, come in quasi tutta Europa',p:{avs:3,pd:3,m5s:2}},
-  {t:'Ius scholae: cittadinanza dopo aver completato almeno un ciclo scolastico completo',p:{pd:2,iv:3,az:3,m5s:1}},
-  {t:'Troppo permissivo: la cittadinanza deve richiedere un percorso lungo e verificabile',p:{fi:3,noi:3,lega:1}},
-  {t:'Nessuna modifica: la cittadinanza si ottiene per sangue o con percorsi molto stringenti',p:{fdi:3,lega:2}},
+  {t:'Ius soli: chi nasce in Italia da genitori regolari è italiano, come in quasi tutta Europa',
+   p:{avs:3,pd:3,m5s:2}},
+  {t:'Ius scholae: cittadinanza dopo un ciclo scolastico completo in Italia',
+   p:{pd:2,iv:3,az:3,m5s:1}},
+  {t:'Nessuna riforma permissiva: chi vuole la cittadinanza deve dimostrare integrazione reale negli anni',
+   p:{fi:3,noi:3,lega:1}},
+  {t:'Nessuna modifica: la cittadinanza italiana si ottiene per discendenza, non per residenza',
+   p:{fdi:3,lega:2}},
 ]},
 
+// Q9 — ONG E SOCCORSO IN MARE
 {type:'lk', s:'Immigrazione',
  t:"Le ONG che effettuano soccorso in mare svolgono un servizio umanitario fondamentale",
  a:{avs:3,pd:3,m5s:1},
- d:{fdi:3,lega:3,fi:1,noi:2}},
+ d:{fdi:3,lega:3,noi:2,fi:1}},
 
-// ─ EUROPA (4) ────────────────────────────────────────────────────────
+// ─ EUROPA E POLITICA ESTERA (4) ──────────────────────────────────────
+
+// Q10 — UCRAINA E INVIO DI ARMI
 {type:'lk', s:'Europa e Politica Estera',
  t:"L'Italia deve continuare a inviare armi all'Ucraina per difendersi dall'invasione russa",
- a:{fi:3,az:3,iv:3,fdi:2,pd:2,noi:2},
- d:{m5s:3,avs:2,lega:2}},
+ a:{fi:3,az:3,iv:3,pd:3,noi:2,fdi:2},
+ d:{m5s:3,avs:3,lega:2}},
 
+// Q11 — RUOLO DELL'ITALIA NELL'UE
+// A = federalismo europeo convinto (Az, IV parziale, parte PD)
+// B = riforma dell'UE in chiave social-democratica (PD, AVS, M5S)
+// C = difesa della sovranità nazionale dentro l'UE (FI, NM, FdI moderata)
+// D = rinegoziazione dei trattati, recupero sovranità (FdI, Lega)
 {type:'mc', s:'Europa e Politica Estera',
- t:"Sul ruolo dell'Italia nell'Unione Europea:",
+ t:"Quale ruolo deve avere l'Italia nell'Unione Europea?",
  o:[
-  {t:"Più integrazione europea: difesa comune, politica estera unica, fisco armonizzato",p:{az:3,pd:2,avs:2,iv:2}},
-  {t:"L'UE va riformata in senso più democratico; l'Italia deve guidare questa riforma",p:{pd:3,m5s:2,iv:1,avs:1}},
-  {t:"Difendere la sovranità italiana nei negoziati, ma restare nell'UE e nell'euro",p:{fi:3,noi:2,fdi:1}},
-  {t:"Rinegoziare i trattati europei, o prepararsi a uscire se le condizioni non cambiano",p:{fdi:2,lega:3}},
+  {t:'Più integrazione: difesa comune, politica estera unica, fisco armonizzato tra i paesi UE',
+   p:{az:3,iv:2,pd:1,avs:1}},
+  {t:'Riformare l\'UE: meno tecnocrazia, più democrazia e meno austerità imposta dall\'alto',
+   p:{pd:3,avs:3,m5s:2}},
+  {t:'Stare nell\'UE e nell\'euro, ma difendere con fermezza gli interessi nazionali italiani',
+   p:{fi:3,noi:3,fdi:1}},
+  {t:'Rinegoziare i trattati: troppa sovranità è stata ceduta a Bruxelles, va recuperata',
+   p:{fdi:3,lega:3}},
 ]},
 
+// Q12 — VINCOLI EUROPEI DI BILANCIO
+{type:'lk', s:'Europa e Politica Estera',
+ t:"I limiti europei al deficit e al debito sono utili: costringono l'Italia a fare i conti con la realtà",
+ a:{az:3,iv:3,fi:2,noi:1},
+ d:{fdi:3,lega:3,m5s:3,avs:2,pd:1}},
+
+// Q13 — NATO E DIFESA
+// FIX: M5S era duplicato su opzioni C e D — ora ogni partito ha una sola "casa"
+// A = atlantismo convinto + difesa europea (FI, Az, IV, FdI, NM)
+// B = sì alla NATO ma più autonomia europea dagli USA (PD)
+// C = pacifismo ideologico: ridurre spese militari (AVS)
+// D = sovranismo non-allineato: fuori dalle guerre altrui (Lega, M5S — motivazioni diverse ma stesso voto)
 {type:'mc', s:'Europa e Politica Estera',
  t:"Sul sistema di difesa e la NATO:",
  o:[
-  {t:"Rispettare gli impegni NATO (2% PIL) e costruire una difesa europea integrata",p:{fi:3,az:3,iv:3,fdi:2}},
-  {t:"Sì alla NATO, ma più autonomia europea dagli USA: serve un esercito comune europeo",p:{pd:3,noi:2,iv:1}},
-  {t:"Ridurre le spese militari e puntare sulla diplomazia come strumento principale",p:{avs:3,pd:1,m5s:2}},
-  {t:"L'Italia non si deve immischiare nei conflitti altrui: neutralità prima di tutto",p:{m5s:2,lega:1,avs:1}},
+  {t:'Rispettare gli impegni NATO (2% PIL) e lavorare per una difesa europea integrata',
+   p:{fi:3,az:3,iv:3,fdi:2,noi:2}},
+  {t:'Sì alla NATO, ma l\'Europa deve emanciparsi dagli USA: serve un esercito comune europeo',
+   p:{pd:3,avs:1}},
+  {t:'Ridurre le spese militari e puntare sulla diplomazia: i soldi delle armi servono al welfare',
+   p:{avs:3,pd:1}},
+  {t:'L\'Italia non si deve immischiare nei conflitti altrui: neutralità e interessi nazionali prima di tutto',
+   p:{lega:3,m5s:3}},
 ]},
 
-// ─ AMBIENTE (3) ──────────────────────────────────────────────────────
+// ─ AMBIENTE ED ENERGIA (3) ───────────────────────────────────────────
+
+// Q14 — NUCLEARE DI NUOVA GENERAZIONE
+// A = pro-nucleare convinto (FdI, FI, Lega, Az, IV)
+// B = aperto ma prudente — dibattito e consenso necessari (PD moderato, NM)
+// C = preferisce rinnovabili — più veloci e già pronte (PD sinistra)  ← diverso da D: non è contro per sicurezza
+// D = no categorico per sicurezza e scorie (AVS, M5S)  ← motivazione ideologica, non solo pratica
 {type:'mc', s:'Ambiente ed Energia',
- t:'Sul ritorno al nucleare in Italia (nuova generazione, reattori sicuri e modulari):',
+ t:'Sul ritorno al nucleare in Italia (nuova generazione, reattori modulari):',
  o:[
-  {t:'Va sviluppato subito: è la soluzione migliore per sicurezza energetica e clima',p:{fdi:3,fi:3,lega:2,az:2,iv:2}},
-  {t:'Può essere utile in futuro, ma serve un dibattito pubblico serio prima di decidere',p:{pd:2,noi:2,iv:1}},
-  {t:'Meglio puntare tutto sulle rinnovabili: sono già mature e più veloci da realizzare',p:{avs:2,m5s:2,pd:1}},
-  {t:'No al nucleare: rischi e costi delle scorie non lo rendono adatto all\'Italia',p:{avs:3,m5s:3}},
+  {t:'Va sviluppato subito: è la risposta giusta sia per il clima che per i prezzi dell\'energia',
+   p:{fdi:3,fi:3,lega:2,az:2,iv:2}},
+  {t:'Può avere un ruolo in futuro, ma serve prima un dibattito serio e il consenso dei territori',
+   p:{pd:2,noi:2,fi:1}},
+  {t:'Meglio puntare sulle rinnovabili: sono già mature, più veloci da installare e meno costose',
+   p:{pd:2,m5s:1,avs:1}},
+  {t:'No al nucleare: le scorie radioattive durano migliaia di anni e i rischi sono inaccettabili',
+   p:{avs:3,m5s:3}},
 ]},
 
+// Q15 — BANDO AUTO BENZINA/DIESEL DAL 2035
 {type:'lk', s:'Ambiente ed Energia',
  t:"Dal 2035 in Europa non si potranno vendere auto a benzina o diesel: è una scelta giusta",
- a:{avs:3,pd:3},
+ a:{avs:3,pd:3,m5s:1},
  d:{fdi:3,lega:3,fi:2,az:2,iv:2,noi:2}},
 
+// Q16 — MIX ENERGETICO NAZIONALE
+// FIX: C e D erano troppo simili (entrambe "di destra energetica")
+// A = accelerazione verde pura (AVS, PD)
+// B = mix pragmatico: rinnovabili + gas + nucleare (FI, Az, IV, NM)
+// C = prezzi bassi prima di tutto — argomento industriale/famiglie (Lega)
+// D = sicurezza energetica nazionale — estrarre più gas italiano (FdI)  ← ora diversa: è nazionalismo energetico, non solo costo
 {type:'mc', s:'Ambiente ed Energia',
  t:'Sulla politica energetica italiana, la priorità dovrebbe essere:',
  o:[
-  {t:'Accelerare sulle rinnovabili e bloccare nuovi impianti a gas',p:{avs:3,pd:2,m5s:1}},
-  {t:'Mix equilibrato: rinnovabili, gas di transizione e apertura al nucleare',p:{fi:3,fdi:2,noi:2,iv:2,az:2}},
-  {t:'Prezzi bassi per famiglie e imprese: usare le fonti più convenienti disponibili',p:{lega:3,fdi:2,fi:1}},
-  {t:"Autosufficienza: sfruttare gas italiano e rinnovabili per non dipendere dall'estero",p:{fdi:3,lega:2,m5s:1}},
+  {t:'Accelerare sulle rinnovabili con forti investimenti: stop a nuovi impianti a gas',
+   p:{avs:3,pd:2}},
+  {t:'Mix equilibrato: rinnovabili come obiettivo, gas come transizione, nucleare da valutare',
+   p:{fi:3,az:3,iv:3,noi:2,pd:1}},
+  {t:'Abbassare il costo dell\'energia per famiglie e imprese: usiamo le fonti più convenienti',
+   p:{lega:3,fdi:1,fi:1}},
+  {t:'Più gas italiano dal Mediterraneo: indipendenza energetica significa sicurezza nazionale',
+   p:{fdi:3,lega:2}},
 ]},
 
 // ─ DIRITTI CIVILI (4) ────────────────────────────────────────────────
+
+// Q17 — COPPIE DELLO STESSO SESSO
+// A = matrimonio egualitario con adozione (AVS, PD, Az, IV)
+// B = unioni civili + riconoscimento figli (M5S, IV moderata, PD moderato)  ← "sì ai diritti ma non al matrimonio"
+// C = unioni civili come tetto massimo invalicabile (FI, NM)  ← "abbiamo già fatto abbastanza"
+// D = contrario anche alle unioni civili (FdI, Lega, NM tradizionalista)
 {type:'mc', s:'Diritti Civili',
  t:'Sul riconoscimento legale delle coppie dello stesso sesso:',
  o:[
-  {t:"Matrimonio egualitario pieno, con adozione congiunta come per le coppie eterosessuali",p:{avs:3,pd:3,az:2,iv:2}},
-  {t:"Le unioni civili vanno bene; il figlio del partner può essere riconosciuto anche dall'altro",p:{pd:1,iv:1,az:1,fi:1,m5s:1}},
-  {t:'Le unioni civili esistenti sono già sufficienti: nessuna estensione ulteriore',p:{fi:2,noi:3,lega:1}},
-  {t:'Contrario anche alle unioni civili: la famiglia è solo quella tra uomo e donna',p:{fdi:3,lega:2,noi:1}},
+  {t:'Matrimonio egualitario pieno, con adozione congiunta come per le coppie eterosessuali',
+   p:{avs:3,pd:3,az:2,iv:2}},
+  {t:'Le unioni civili vanno bene, ma il figlio del partner deve essere riconosciuto legalmente',
+   p:{m5s:2,iv:1,pd:1,az:1}},
+  {t:'Le unioni civili esistenti sono sufficienti: nessun ulteriore riconoscimento di diritti',
+   p:{fi:3,noi:3,lega:1}},
+  {t:'Contrario anche alle unioni civili: la famiglia è fondata sul matrimonio tra uomo e donna',
+   p:{fdi:3,lega:2,noi:1}},
 ]},
 
+// Q18 — FINE VITA E EUTANASIA
 {type:'lk', s:'Diritti Civili',
- t:"Chi è malato terminale dovrebbe poter scegliere di morire con assistenza medica: va regolamentato per legge",
+ t:"Chi è malato terminale deve poter scegliere di morire con assistenza medica: va regolamentato per legge",
  a:{avs:3,az:3,pd:3,iv:2,m5s:2},
  d:{fdi:3,noi:3,lega:2,fi:2}},
 
+// Q19 — GPA / UTERO IN AFFITTO
 {type:'lk', s:'Diritti Civili',
- t:"Pagare una donna per portare avanti una gravidanza per altri (utero in affitto) dovrebbe essere reato anche se fatto all'estero",
+ t:"Pagare una donna per portare avanti una gravidanza per altri (utero in affitto) deve essere reato anche se fatto all'estero",
  a:{fdi:3,noi:3,lega:3,fi:2},
  d:{avs:3,pd:3,az:2,iv:2,m5s:1}},
 
+// Q20 — STATO E RELIGIONE
+// Scala di intensità: da laicismo convinto a teocrazie culturale
+// 4 posizioni chiaramente distinte per gradazione
 {type:'mc', s:'Diritti Civili',
  t:'Quanto dovrebbero influire i valori religiosi sulle leggi e le politiche italiane?',
  o:[
-  {t:'Per niente: lo Stato deve essere laico e il Concordato con la Chiesa va rivisto',p:{avs:3,pd:2,az:2,iv:2}},
-  {t:'Poco: la tradizione cattolica fa parte della nostra cultura, ma le leggi restano laiche',p:{pd:1,fi:2,noi:2,iv:1}},
-  {t:'Abbastanza: i valori cristiani devono orientare le scelte su famiglia, vita e scuola',p:{noi:3,fdi:2,lega:1,fi:1}},
-  {t:'Molto: la civiltà cristiana è il fondamento dell\'identità italiana e va difesa nelle istituzioni',p:{fdi:3,noi:2,lega:2}},
+  {t:'Per niente: lo Stato deve essere laico e il Concordato con la Chiesa va profondamente rivisto',
+   p:{avs:3,az:3,pd:2,iv:2}},
+  {t:'Poco: la tradizione cattolica fa parte della cultura italiana, ma le leggi restano laiche',
+   p:{pd:1,fi:2,noi:1,iv:1}},
+  {t:'Abbastanza: i valori cristiani devono orientare le scelte dello Stato su famiglia e vita',
+   p:{noi:3,fi:2,lega:1,fdi:1}},
+  {t:'Molto: la civiltà cristiana è il fondamento identitario della nazione italiana, va difeso',
+   p:{fdi:3,noi:2,lega:2}},
 ]},
 
 // ─ SICUREZZA E GIUSTIZIA (3) ─────────────────────────────────────────
+
+// Q21 — RIFORMA DELLA MAGISTRATURA
+// FIX: opzioni C e D erano entrambe "difendo i magistrati" — ora ben distinte:
+// A = pro-separazione carriere (FI, Az, IV, FdI) — conflitto di interessi
+// B = riforma CSM senza separazione delle carriere (PD, NM) — riformismo istituzionale
+// C = garantismo procedurale: il problema è la velocità dei processi (M5S garantista, Az garantista)
+// D = difesa dell'indipendenza della magistratura come pilastro democratico (AVS, PD sinistra)
 {type:'mc', s:'Sicurezza e Giustizia',
- t:"Un magistrato che ha fatto il pubblico ministero (accusatore) può poi fare il giudice nello stesso tipo di processo?",
+ t:"Chi accusa (PM) e chi giudica devono essere ruoli separati per legge?",
  o:[
-  {t:'No: le carriere vanno separate per legge, è un conflitto di interessi evidente',p:{fi:3,az:3,iv:3,fdi:2}},
-  {t:'Va riformato l\'organo di autogoverno dei magistrati (CSM), la separazione delle carriere è eccessiva',p:{pd:2,m5s:2,avs:2}},
-  {t:'La magistratura funziona: queste riforme sono pretesti politici per controllare i giudici',p:{avs:3,m5s:2,pd:1}},
-  {t:'Serve una riforma seria del CSM, ma senza usarla come arma contro i magistrati scomodi',p:{pd:2,noi:2,iv:1,az:1}},
+  {t:'Sì: PM e giudice non possono cambiare ruolo, è un conflitto di interessi — la riforma è urgente',
+   p:{fi:3,az:3,iv:3,fdi:2}},
+  {t:'Meglio riformare il CSM per eliminare le correnti politiche: la separazione delle carriere non risolve il problema',
+   p:{pd:3,noi:2}},
+  {t:'Il problema vero è la durata infinita dei processi: servono tempi certi, non battaglie tra politica e toga',
+   p:{m5s:2,iv:1,az:1}},
+  {t:'La magistratura indipendente è un presidio della democrazia: queste riforme mirano a controllare i giudici scomodi',
+   p:{avs:3,pd:1,m5s:1}},
 ]},
 
+// Q22 — PENE PER I REATI GRAVI
 {type:'lk', s:'Sicurezza e Giustizia',
  t:"In Italia le pene per i reati gravi sono troppo basse: i criminali sanno di cavarsela facilmente",
- a:{fdi:3,lega:3,fi:2,noi:2},
- d:{avs:3,pd:2,m5s:2,az:1}},
+ a:{fdi:3,lega:3,fi:2,noi:2,m5s:1},
+ d:{avs:3,pd:2,az:1}},
 
+// Q23 — FUNZIONE DEL CARCERE
+// FIX: opzioni C e D erano quasi identiche — ora genuinamente diverse:
+// A = rieducazione come priorità costituzionale (AVS, PD)
+// B = equilibrio tra punizione e rieducazione (FI, Az, IV, PD moderato)
+// C = certezza della pena come deterrente principale — ridurre gli sconti (Lega, NM, FI)
+// D = protezione della società dai pericolosi — ergastolo vero, tolleranza zero per reati gravi (FdI)
 {type:'mc', s:'Sicurezza e Giustizia',
  t:"A cosa serve principalmente il carcere?",
  o:[
-  {t:'A rieducare e reinserire: vanno potenziati i percorsi alternativi alla detenzione',p:{avs:3,pd:3,m5s:2}},
-  {t:'Sia a rieducare che a punire: le due cose non si escludono',p:{pd:1,iv:2,fi:2,az:2}},
-  {t:'A punire con certezza: le riduzioni di pena per buona condotta vanno ridotte',p:{fi:3,noi:3,lega:2}},
-  {t:'A togliere i criminali dalla strada: chi ha fatto danni gravi deve scontare tutto',p:{fdi:3,lega:2}},
+  {t:'A rieducare e reinserire: bisogna potenziare i percorsi alternativi alla detenzione',
+   p:{avs:3,pd:3}},
+  {t:'A entrambe le cose: chi sbaglia paga, ma lo Stato deve anche aiutarlo a non ricadere',
+   p:{fi:2,az:2,iv:2,pd:1,m5s:1}},
+  {t:'A punire con certezza: gli sconti di pena per buona condotta inviano il messaggio sbagliato',
+   p:{lega:3,noi:3,fi:1}},
+  {t:'A proteggere i cittadini dai pericolosi: per i reati gravi nessuno sconto, mai',
+   p:{fdi:3,lega:1}},
 ]},
 
 // ─ STATO E ISTITUZIONI (4) ───────────────────────────────────────────
+
+// Q24 — PREMIERATO / ELEZIONE DIRETTA
 {type:'lk', s:'Stato e Istituzioni',
  t:"Il Presidente del Consiglio dovrebbe essere eletto direttamente dai cittadini, non scelto dai partiti in parlamento",
- a:{fdi:3,lega:2,fi:1},
- d:{avs:3,pd:3,az:3,iv:3,m5s:2}},
+ a:{fdi:3,lega:2},
+ d:{avs:3,pd:3,az:3,iv:3,m5s:2,fi:1,noi:1}},
 
+// Q25 — AUTONOMIA DIFFERENZIATA
+// FIX: opzioni C e D entrambe contrarie ma ora con argomenti genuinamente diversi:
+// A = federalismo premiante (Lega, FI)
+// B = sì con garanzie universali minime (FI moderata, NM, FdI)
+// C = no per ragioni pratiche: frantuma sanità e scuola (PD, M5S, Az, IV)  ← argomento dei servizi concreti
+// D = no per ragioni di principio: l'Italia è uno Stato unitario e la solidarietà non è negoziabile (AVS, PD sinistra)  ← argomento costituzionale/valoriale
 {type:'mc', s:'Stato e Istituzioni',
- t:"Le regioni del Nord che gestiscono meglio i servizi (sanità, scuola, trasporti) dovrebbero avere più autonomia e trattenere più tasse, anche se questo crea differenze col Sud:",
+ t:"Le regioni più efficienti dovrebbero avere più autonomia e trattenere più tasse, anche se questo crea divari col Sud:",
  o:[
-  {t:'Sì: premiare chi è efficiente è giusto e spinge le altre regioni a migliorare',p:{lega:3,fdi:1,fi:2}},
-  {t:'Sì, ma solo se prima si garantisce a tutti i cittadini lo stesso livello minimo di servizi',p:{fi:2,noi:2,fdi:2}},
-  {t:'No: allarga il divario Nord-Sud e frammenta servizi essenziali come sanità e scuola',p:{pd:3,m5s:3,iv:2,az:2,avs:2}},
-  {t:"No: l'Italia è un paese unico, serve coesione non separazione",p:{avs:3,pd:2,m5s:2}},
+  {t:'Sì: chi amministra bene merita più risorse — è un incentivo al miglioramento',
+   p:{lega:3,fi:2,fdi:1}},
+  {t:'Solo se prima si garantisce a tutti gli italiani lo stesso livello minimo di sanità e scuola',
+   p:{noi:3,fi:2,fdi:2}},
+  {t:'No: crea italiani di serie A e di serie B — sanità e scuola devono funzionare allo stesso modo ovunque',
+   p:{pd:3,m5s:3,az:2,iv:2}},
+  {t:'No per principio: l\'Italia è una Repubblica una e indivisibile, la solidarietà tra regioni non si discute',
+   p:{avs:3,pd:2,m5s:1}},
 ]},
 
+// Q26 — INDIPENDENZA DELLA RAI
 {type:'lk', s:'Stato e Istituzioni',
- t:"La RAI è troppo controllata dal governo di turno: dovrebbe diventare davvero indipendente dalla politica",
+ t:"La RAI è troppo condizionata dal governo di turno: dovrebbe diventare davvero indipendente dalla politica",
  a:{az:3,iv:3,avs:3,pd:3,m5s:2},
- d:{fdi:2,lega:2}},
+ d:{fdi:3,lega:2,noi:1}},
 
+// Q27 — SISTEMA PENSIONISTICO
+// FIX: M5S non compare più su due opzioni diverse
+// A = pensione anticipata per chi ha versato 41 anni (Lega, FdI) — promessa di campagna elettorale storica
+// B = riforma equa tra generazioni: flessibilità vera ma sistema sostenibile (PD, IV, Az, FI)
+// C = pensione minima universale garantita (AVS, M5S) — welfare di base, diverso da A per target e logica
+// D = l'età pensionabile alta è inevitabile con la demografia attuale (Az, IV — la posizione scomoda ma onesta)
 {type:'mc', s:'Stato e Istituzioni',
  t:"Sul sistema pensionistico italiano, quale approccio preferisci?",
  o:[
-  {t:"Chi ha lavorato e versato contributi per 41 anni può andare in pensione, indipendentemente dall'età",p:{lega:3,fdi:2,m5s:2}},
-  {t:"Va riformato per essere equo tra giovani e anziani: flessibilità vera, ma il sistema deve reggere",p:{pd:3,iv:3,az:2,fi:2}},
-  {t:"L'età pensionabile a 67 anni non si tocca: è l'unico modo per tenere in piedi i conti",p:{az:2,iv:1,fi:1}},
-  {t:"Pensione minima garantita per tutti gli anziani: chi ha poco non deve vivere in povertà",p:{m5s:3,avs:3,pd:2}},
+  {t:'Chi ha lavorato e versato contributi per 41 anni può andare in pensione, indipendentemente dall\'età',
+   p:{lega:3,fdi:3}},
+  {t:'Va riformato per equità tra generazioni: i giovani devono sapere cosa riceveranno davvero',
+   p:{pd:3,iv:3,fi:2,az:2}},
+  {t:'Pensione minima garantita per tutti gli anziani: nessuno deve vivere sotto la soglia di povertà',
+   p:{avs:3,m5s:3,pd:2}},
+  {t:'Con meno giovani e più anziani, lavorare fino a 67 anni è inevitabile: è una questione di matematica',
+   p:{az:2,iv:1,fi:1}},
 ]},
 ];
 
